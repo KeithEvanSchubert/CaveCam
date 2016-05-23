@@ -22,11 +22,11 @@ ev = 0 #-10 to 10
 quality = 100 # 1 to 100
 encoding = "jpg" # jpg, bmp, gif, png
 
-options = "-n -r -awb auto -mm average -w " + str(imgWidth) +
-" -h " + str(imgHeight) + " -sh " + str(sharpness) + " -co " +
-str(contrast) + " -br " + str(brightness) + " -sa " + str(saturation) +
-" -ISO " + str(ISO) + " -ev " + str(ev) + " -q " + str(quality) +
-" -e " + encoding
+options = "-n -r -awb auto -mm average -w " + str(imgWidth) + " -h "
+options = options + str(imgHeight) + " -sh " + str(sharpness) + " -co "
+options = options + str(contrast) + " -br " + str(brightness) + " -sa "
+options = options + str(saturation) + " -ISO " + str(ISO) + " -ev " + 
+options = options + str(ev) + " -q " + str(quality) + " -e " + encoding
 
 
 # Setup
@@ -36,8 +36,8 @@ month = "%02d" % (d.month)
 day = "%02d" % (d.day)
 hour = "%02d" % (d.hour)
 min = "%02d" % (d.minute)
-SaveDir = "Pics_" + str(year) + "_" + str(month) + "_"  + str(day) +
-"_"  + str(hour) + "_"  + str(min)
+SaveDir = "Pics_" + str(year) + "_" + str(month) + "_"  + str(day)
+SaveDir = SaveDir + "_"  + str(hour) + "_"  + str(min)
 
 os.mkdir(SaveDir)
 FileNum = 0
@@ -52,10 +52,10 @@ try:
     hour = "%02d" % (d.hour)
     min = "%02d" % (d.minute)
 
-    os.system("raspistill " + options + " -x time.yyyy.mm.dd.hh.mm=" +
-    str(year) + "." + str(month) + "."  + str(day) + "."  + str(hour) +
-    "."  + str(min) + " -o " + SaveDir + "/Pic_" + str(FileNum) +
-    "." + encoding )
+    Tag = " -x time.yyyy.mm.dd.hh.mm=" +     str(year) + "." + str(month) 
+    Tag = Tag + "."  + str(day) + "."  + str(hour) + "."  + str(min)
+    FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
+    os.system("raspistill " + options + Tag + " -o " + FileName )
 
     FileNum += 1
     time.sleep(interval)
