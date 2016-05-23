@@ -52,3 +52,5 @@ Tag = " -x time.yyyy.mm.dd.hh.mm=" +     str(year) + "." + str(month)
 Tag = Tag + "."  + str(day) + "."  + str(hour) + "."  + str(min)
 FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
 os.system("raspistill " + options + Tag + " -o " + FileName )
+FileNameFLIR = SaveDir + "/FLIR_" + str(FileNum) + "." + encoding
+os.system("~/pylepton/pylepton_capture "  + FileNameFLIR )
