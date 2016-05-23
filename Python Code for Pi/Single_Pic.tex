@@ -35,7 +35,11 @@ day = "%02d" % (d.day)
 hour = "%02d" % (d.hour)
 min = "%02d" % (d.minute)
 SaveDir = sys.argv[1]
-FileNum = sys.argv[2]
+f = open('Num','r+')
+FileNum = f.read()
+f.seek(0)
+f.write(str(FileNum+1))
+f.close()
 
 d = datetime.now()
 year = "%04d" % (d.year)
