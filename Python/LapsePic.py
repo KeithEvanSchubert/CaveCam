@@ -57,7 +57,8 @@ try:
     FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
     os.system("raspistill " + options + Tag + " -o " + FileName )
     FileNameFLIR = SaveDir + "/FLIR_" + str(FileNum) + "." + encoding
-    os.system("/home/pi/pylepton/pylepton_capture "  + FileNameFLIR )
+    FLIRcmd ="/home/pi/pylepton/pylepton_capture -d /dev/spidev0.1 "
+    os.system(FLIRcmd + FileNameFLIR )
 
     FileNum += 1
     time.sleep(interval)
