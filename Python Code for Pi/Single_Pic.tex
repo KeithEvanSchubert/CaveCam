@@ -4,12 +4,10 @@
 # camera, and stores them with a dynamically generated name.
 
 import os
+import sys
 import time
 import RPi.GPIO as GPIO
 from datetime import datetime
-
-# settings
-interval=30 # in seconds 24*60*60
 
 imgWidth = 2592  #max 2592
 imgHeight = 1944 #max 1944
@@ -36,28 +34,17 @@ month = "%02d" % (d.month)
 day = "%02d" % (d.day)
 hour = "%02d" % (d.hour)
 min = "%02d" % (d.minute)
-SaveDir = "Pics_" + str(year) + "_" + str(month) + "_"  + str(day)
-SaveDir = SaveDir + "_"  + str(hour) + "_"  + str(min)
+SaveDir = sys.argv[1]
+FileNum = sys.argv[2]
 
-os.mkdir(SaveDir)
-FileNum = 0
+d = datetime.now()
+year = "%04d" % (d.year)
+month = "%02d" % (d.month)
+day = "%02d" % (d.day)
+hour = "%02d" % (d.hour)
+min = "%02d" % (d.minute)
 
-# main loop
-try:
-  while True:
-    d = datetime.now()
-    year = "%04d" % (d.year)
-    month = "%02d" % (d.month)
-    day = "%02d" % (d.day)
-    hour = "%02d" % (d.hour)
-    min = "%02d" % (d.minute)
-
-    Tag = " -x time.yyyy.mm.dd.hh.mm=" +     str(year) + "." + str(month) 
-    Tag = Tag + "."  + str(day) + "."  + str(hour) + "."  + str(min)
-    FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
-    os.system("raspistill " + options + Tag + " -o " + FileName )
-
-    FileNum += 1
-    time.sleep(interval)
-except KeyboardInterrupt:	
-  print SaveDir
+Tag = " -x time.yyyy.mm.dd.hh.mm=" +     str(year) + "." + str(month)
+Tag = Tag + "."  + str(day) + "."  + str(hour) + "."  + str(min)
+FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
+os.system("raspistill " + options + Tag + " -o " + FileName )
