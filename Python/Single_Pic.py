@@ -36,7 +36,7 @@ hour = "%02d" % (d.hour)
 min = "%02d" % (d.minute)
 SaveDir = sys.argv[1]
 f = open('Num','r+')
-FileNum = f.read()
+FileNum = int(f.read())
 f.seek(0)
 f.write(str(FileNum+1))
 f.close()
