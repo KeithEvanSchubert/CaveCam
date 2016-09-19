@@ -4,12 +4,10 @@
 # camera, and stores them with a dynamically generated name.
 
 import os
+import sys
 import time
 import RPi.GPIO as GPIO
 from datetime import datetime
-
-# settings
-interval=30 # in seconds 24*60*60
 
 imgWidth = 2592  #max 2592
 imgHeight = 1944 #max 1944
@@ -45,39 +43,37 @@ month = "%02d" % (d.month)
 day = "%02d" % (d.day)
 hour = "%02d" % (d.hour)
 min = "%02d" % (d.minute)
-SaveDir = "Pics_" + str(year) + "_" + str(month) + "_"  + str(day)
-SaveDir = SaveDir + "_"  + str(hour) + "_"  + str(min)
+#SaveDir = sys.argv[1]
+f = open('Dir','r+')
+SaveDir = f.read()
+f.close()
 
-os.mkdir(/media/USB20FD/SaveDir)
-FileNum = 0
+f = open('Num','r+')
+FileNum = int(f.read())
+f.seek(0)
+f.write(str(FileNum+1))
+f.close()
 
-# main loop
-try:
-  while True:
-    d = datetime.now()
-    year = "%04d" % (d.year)
-    month = "%02d" % (d.month)
-    day = "%02d" % (d.day)
-    hour = "%02d" % (d.hour)
-    min = "%02d" % (d.minute)
+d = datetime.now()
+year = "%04d" % (d.year)
+month = "%02d" % (d.month)
+day = "%02d" % (d.day)
+hour = "%02d" % (d.hour)
+min = "%02d" % (d.minute)
 
-    Tag = " -x time.yyyy.mm.dd.hh.mm=" +     str(year) + "." + str(month) 
-    Tag = Tag + "."  + str(day) + "."  + str(hour) + "."  + str(min)
-    FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
-    
-    GPIO.output(SigPin,GPIO.HIGH)
-    time.sleep(setupdelay)
-    
-    os.system("raspistill " + options + Tag + " -o " + FileName )
-    
-    time.sleep(holddelay)
-    GPIO.output(SigPin,GPIO.LOW)
-    
-    FileNameFLIR = SaveDir + "/FLIR_" + str(FileNum) + "." + encoding
-    FLIRcmd ="/home/pi/pylepton/pylepton_capture -d /dev/spidev0.1 "
-    os.system(FLIRcmd + FileNameFLIR )
+Tag = " -x time.yyyy.mm.dd.hh.mm=" +     str(year) + "." + str(month)
+Tag = Tag + "."  + str(day) + "."  + str(hour) + "."  + str(min)
+FileName = SaveDir + "/Pic_" + str(FileNum) + "." + encoding
 
-    FileNum += 1
-    time.sleep(interval)
-except KeyboardInterrupt:	
-  print SaveDir
+
+GPIO.output(SigPin,GPIO.HIGH)
+time.sleep(setupdelay)
+
+os.system("raspistill " + options + Tag + " -o " + FileName )
+
+time.sleep(holddelay)
+GPIO.output(SigPin,GPIO.LOW)
+
+FileNameFLIR = SaveDir + "/FLIR_" + str(FileNum) + "." + encoding
+FLIRcmd ="/home/pi/pylepton/pylepton_capture -d /dev/spidev0.1 "
+os.system(FLIRcmd + FileNameFLIR )

@@ -48,7 +48,7 @@ min = "%02d" % (d.minute)
 SaveDir = "Pics_" + str(year) + "_" + str(month) + "_"  + str(day)
 SaveDir = SaveDir + "_"  + str(hour) + "_"  + str(min)
 
-os.mkdir(/media/USB20FD/SaveDir)
+os.mkdir(SaveDir)
 FileNum = 0
 
 # main loop
